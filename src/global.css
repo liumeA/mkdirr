@@ -1,4 +1,9 @@
 
+@font-face {
+  font-family: 'tensoren_font';
+  src: url('assets/font/SourceHanSans-Normal.otf');
+}
+
 html, body, #root {
   height: 100%;
 }
@@ -6,3 +11,15 @@ html, body, #root {
 body {
   margin: 0;
 }
+
+* {
+  font-family: 'tensoren_font';
+  /*color: #015080;*/
+}
+
+a {
+  /*color: #f7f7f7;*/
+}
+
+
+

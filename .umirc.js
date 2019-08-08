@@ -1,4 +1,5 @@
-
+const routes = require('./src/config/routes');
+const pageRouter = routes.routes;
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
@@ -11,7 +12,7 @@ export default {
       title: 'mkdirr',
       dll: true,
       locale: {
-        enable: true,
+        enable: false,
         default: 'zh-CN',
       },
       routes: {
@@ -24,5 +25,11 @@ export default {
         ],
       },
     }],
-  ],
-}
+  ], proxy: {
+    '/api': {
+      target: 'http://139.196.77.225',
+      pathRewrite: { '^/api': '' },
+      changeOrigin: true,
+    },
+  }, routes: pageRouter,
+};

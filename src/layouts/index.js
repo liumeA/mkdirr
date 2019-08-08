@@ -4,7 +4,7 @@ import styles from './index.css';
 import { setLocale } from 'umi-plugin-locale';
 
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+import { Language } from '@/components/language';
 
 
 class Index extends Component {
@@ -16,7 +16,6 @@ class Index extends Component {
   }
 
   changeLun = () => {
-
     setLocale(this.state.currylau === 'zh-CN' ? 'en-US' : 'zh-CN');
     this.setState({
       currylau: this.state.currylau === 'zh-CN' ? 'en-US' : 'zh-CN',
@@ -24,15 +23,10 @@ class Index extends Component {
   };
 
   render() {
-
-    alert(this.state.currylau);
     return (
       <div className={styles.normal}>
         <h1 className={styles.title}>Yay! Welcome to umi!
-          <Button onClick={() => {
-
-            this.changeLun();
-          }}> 改变</Button>
+          {Language()}
         </h1>
         {this.props.children}
       </div>

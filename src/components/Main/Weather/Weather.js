@@ -17,7 +17,7 @@ import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Underlying from "./Underlying";
 import Fab from "@material-ui/core/Fab";
 import {ENDTIME, START_TIME, TENSOREN_BULE} from "../../Const";
-import Insured from "./Insured";
+import Insured from "../../Insured";
 import Tick from "./Tick";
 import Deductible from "./Deductible";
 import Limit from "./Limit";
@@ -433,7 +433,7 @@ class Weather extends React.Component {
     //underlying
     onChangeUnderlying = e => {
         this.setState({
-            underlying: e.target.value
+            underlyingArray: e.target.value
         });
         // eslint-disable-next-line default-case
         switch (e.target.value) {

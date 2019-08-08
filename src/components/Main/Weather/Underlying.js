@@ -179,7 +179,7 @@ class Underlying extends Component {
         this.props.onChangeState("underlying_type")(event);
     };
     underlyingChange = event => {
-        this.setState({underlying: event.target.value});
+        this.setState({underlyingArray: event.target.value});
         this.props.onChangeUnderlying(event);
     };
 
