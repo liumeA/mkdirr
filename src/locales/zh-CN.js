@@ -1,6 +1,11 @@
 export default {
 
   hello: '你好',
+  tensoren: '天韧科技',
+  add: '增加',
+  del: '删除',
+  edit: '编辑',
+
   main_text1: '天气指数保险',
   main_text2: '区域产量指数保险',
   main_text3: '收入保险',
@@ -30,4 +35,21 @@ export default {
   policy_lableText4: '免赔设置',
   policy_lableText5: '限额设置',
   policy_lableText6: '保费报价',
+
+  insuredName: '被保险人：',
+  insuredPlace: '投保地点：',
+  insuredSubject: '保险标的：',
+
+  periodStartDate: '开始日期',
+  periodEndDate: '结束日期',
+  period: '期间',
+
+  limit: '保单限额：',
+  limit_event: '事件次数：',
+  limit_eventArray0: '所有',
+  limit_eventArray1: '最大一次',
+  limit_eventArray2: '前面一次',
+  limit_eventArray3: '前面两次',
+  limit_eventArray4: '前面三次',
+
 };

@@ -1,18 +1,16 @@
 import React from 'react';
-
-import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 // import RouterIndex from "./components/Router/RouterIndex";
 import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/ViewList';
-import { TENSOREN_BULE } from '../components/Const';
 import Slide from '@material-ui/core/Slide';
 import { Typography } from '@material-ui/core';
 import { router } from 'umi';
 import { init as intl } from '@/util/init';
 import { formatMessage } from 'umi-plugin-locale';
+import { _THEME } from '@/PolicyStyle';
 
 const styles = {
   head: {
@@ -25,21 +23,6 @@ const styles = {
 
 
 class App extends React.Component {
-  theme = createMuiTheme({
-    typography: {
-      useNextVariants: true,
-    },
-    palette: {
-      primary: {
-        main: TENSOREN_BULE,
-      },
-    },
-  });
-
-  constructor(props) {
-    super(props);
-
-  }
 
 
   handleChange = (event, value) => {
@@ -50,7 +33,7 @@ class App extends React.Component {
 
 
     return (
-      <MuiThemeProvider theme={this.theme}>
+      <MuiThemeProvider theme={_THEME}>
         <Slide direction="left" in={true} mountOnEnter unmountOnExit>
           <Typography component={'div'}>
             <header style={styles.head}>
@@ -58,7 +41,7 @@ class App extends React.Component {
               头部 头部
               头部 头部
             </header>
-            <div style={{ position: 'fixed', bottom: '56px',top:'18px' }}>
+            <div style={{ position: 'fixed', bottom: '56px', top: '18px' }}>
               {/*<RouterIndex/>*/}{this.props.children}
             </div>
           </Typography>
@@ -79,4 +62,11 @@ class App extends React.Component {
   }
 }
 
+// document.onkeydown = function(event){
+//
+//   if(window.event && window.event.keyCode == 123) {
+//     alert("F12被禁用");
+//     event.returnValue=false;
+//   }
+// };
 export default App;

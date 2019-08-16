@@ -1,6 +1,5 @@
 import styles from './index.css';
 import { formatMessage } from 'umi-plugin-locale';
-import { Button } from 'antd';
 import { init as intl } from '@/util/init';
 import { Language } from '@/components/language';
 
@@ -16,7 +15,6 @@ export default function(props) {
       <ul className={styles.list}>
         <li>To get started, edit <code>src/pages/index.js</code> and save to reload.</li>
         <li>
-
           {formatMessage({ id: intl.hello })}
         </li>
       </ul>

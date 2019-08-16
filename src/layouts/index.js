@@ -1,26 +1,11 @@
 import styles from './index.css';
 
-
-import { setLocale } from 'umi-plugin-locale';
-
 import React, { Component } from 'react';
 import { Language } from '@/components/language';
 
 
 class Index extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currylau: 'zh-CN',
-    };
-  }
 
-  changeLun = () => {
-    setLocale(this.state.currylau === 'zh-CN' ? 'en-US' : 'zh-CN');
-    this.setState({
-      currylau: this.state.currylau === 'zh-CN' ? 'en-US' : 'zh-CN',
-    });
-  };
 
   render() {
     return (
@@ -34,4 +19,11 @@ class Index extends Component {
   }
 }
 
+// document.onkeydown = function(event){
+//
+//   if(window.event && window.event.keyCode == 123) {
+//     alert("F12被禁用");
+//     event.returnValue=false;
+//   }
+// };
 export default Index;

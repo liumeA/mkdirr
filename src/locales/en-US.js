@@ -1,5 +1,10 @@
 export default {
   hello: 'hello',
+  tensoren: 'tensoren',
+  add: 'add',
+  del: 'delete',
+  edit: 'edit',
+
   main_text1: '天气指数保险en',
   main_text2: '区域产量指数保险en',
   main_text3: '收入保险en',
@@ -31,4 +36,20 @@ export default {
   policy_lableText4: '免赔设置en',
   policy_lableText5: '限额设置en',
   policy_lableText6: '保费报价en',
+
+  insuredName: 'InsuredName：',
+  insuredPlace: 'InsuredPlace：',
+  insuredSubject: 'Subject：',
+
+  periodStartDate: 'StartDate',
+  periodEndDate: 'EndDate',
+  period: 'Period',
+
+  limit: '保单限额en',
+  limit_event: '事件次数en',
+  limit_eventArray0: '所有en',
+  limit_eventArray1: '最大一次en',
+  limit_eventArray2: '前面一次en',
+  limit_eventArray3: '前面两次en',
+  limit_eventArray4: '前面三次en',
 };

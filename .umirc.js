@@ -1,20 +1,19 @@
-const routes = require('./src/config/routes');
-const pageRouter = routes.routes;
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
-      antd: true,
+      antd: false,
       dva: true,
       dynamicImport: { webpackChunkName: true },
-      title: 'mkdirr',
+      title: '云精算',
       dll: true,
       locale: {
-        enable: false,
+        enable: true,
         default: 'zh-CN',
       },
+
       routes: {
         exclude: [
           /models\//,
@@ -24,12 +23,15 @@ export default {
           /components\//,
         ],
       },
-    }],
-  ], proxy: {
+    },
+    ],
+  ],
+  routes: require('@/config/routes').routes,
+  proxy: {
     '/api': {
-      target: 'http://139.196.77.225',
+      target: 'http://139.196.77.225/dev',
       pathRewrite: { '^/api': '' },
       changeOrigin: true,
     },
-  }, routes: pageRouter,
+  },
 };

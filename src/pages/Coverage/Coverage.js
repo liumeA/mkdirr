@@ -1,86 +1,36 @@
 import React from 'react';
 
-import { createMuiTheme, withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles/index';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel/index';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/index';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/index';
+import Typography from '@material-ui/core/Typography/index';
 import AddIcon from '@material-ui/icons/Add';
 
-import { Button } from '@material-ui/core';
+import { Button } from '@material-ui/core/index';
 import ExMoreIcon from '@material-ui/icons/ExpandMore';
 
-import StaticMap from './StaticMap';
-import Subperiods from './Subperiods';
-import Toast from 'antd-mobile/lib/toast';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import Underlying from './Underlying';
-import Fab from '@material-ui/core/Fab';
-import { ENDTIME, START_TIME, TENSOREN_BULE } from '../../Const';
-import Insured from '../../Policy/Insured';
-import Tick from './Tick';
-import Deductible from '../../Policy/Deductible';
-import Limit from '../../Policy/Limit';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Slide from '@material-ui/core/Slide';
-import Dialog from '@material-ui/core/Dialog';
-import Station from './Station';
-import { RavenStatic as Raven } from 'raven-js';
-import Zoom from '@material-ui/core/Zoom';
+import Fab from '@material-ui/core/Fab/index';
+import Slide from '@material-ui/core/Slide/index';
+import Dialog from '@material-ui/core/Dialog/index';
+import Zoom from '@material-ui/core/Zoom/index';
+import { _STYLE_POLICY } from '@/PolicyStyle';
+import { ENDTIME, START_TIME } from '@/components/Const';
+import Insured from '@/components/Policy/Insured';
+import Station from '@/components/Sub_Policy/Station';
+import Deductible from '@/components/Policy/Deductible';
+import Limit from '@/components/Policy/Limit';
+import Tick from '@/components/Sub_Policy/Tick';
+import Underlying from '@/components/Main/Weather/Underlying';
 
 
 function Transition(props) {
   return <Zoom direction="up" {...props} />;
 }
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
 
+class Coverage extends React.Component {
 
-  bottomNv: {
-    width: '100%', position: 'fixed', bottom: 0,
-  },
-  bottomNv_b: {
-    width: '33.33%', height: 56, backgroundColor: '#fff',
-  },
-  bottomPlus: {
-    position: 'fixed', bottom: 60, right: 5, zIndex: 99,
-  }, rootPlus: {
-    width: '100%',
-    height: document.documentElement.clientHeight,
-    zIndex: 1,
-    top: 0,
-    position: 'fixed',
-    textAlign: 'right',
-    opacity: '0.8',
-  }, buttonMargin: {
-    margin: 2,
-  },
-});
-
-
-class Weather extends React.Component {
-  theme = createMuiTheme({
-    typography: {
-      useNextVariants: true,
-    },
-    palette: {
-      primary: {
-        main: TENSOREN_BULE,
-      },
-    },
-  });
 
   provinces = ['安徽'];
   stations = ['砀山'];
@@ -135,7 +85,7 @@ class Weather extends React.Component {
     const { classes } = this.props;
     const { expanded } = this.state;
     return (
-      <MuiThemeProvider theme={this.theme}>
+      <div color={'primary'} className={classes.root}>
         <Slide direction="left" in={true} mountOnEnter unmountOnExit>
           <div color={'primary'} className={classes.root}>
             <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
@@ -173,9 +123,9 @@ class Weather extends React.Component {
                           variant={'contained'}
                     // style={{marginRight: '4px', right: 5, position: "absolute"}}
                           onClick={this.delStations}>删除</Button>
-                  <StaticMap/>
+                  {/*<StaticMap/>*/}
 
-                </Typography>
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
@@ -189,24 +139,25 @@ class Weather extends React.Component {
                 <div color={'primary'} style={{ width: '100%' }}>
 
                   {/*<MaterialUIPickers/>*/}
-                  {this.state.subperiodsArray.map((item, index) =>
-                    <Subperiods
-                      key={index}
-                      keyId={index}
-                      allEndTime={this.allEndTime}
-                      allStartTime={this.allStartTime}/>)}
-                  <Button
-                    color={'primary'}
-                    variant={'contained'}
-                    style={{ marginRight: '4px', left: 0 }}
-                    onClick={() => this.addSubperiod()}>增加</Button>
+                  {/*{this.state.subperiodsArray.map((item, index) =>*/}
+                  {/*  <Subperiods*/}
+                  {/*    key={index}*/}
+                  {/*    keyId={index}*/}
+                  {/*    allEndTime={this.allEndTime}*/}
+                  {/*    allStartTime={this.allStartTime}*/}
+                  {/*  />)}*/}
+                  {/*<Button*/}
+                  {/*  color={'primary'}*/}
+                  {/*  variant={'contained'}*/}
+                  {/*  style={{ marginRight: '4px', left: 0 }}*/}
+                  {/*  onClick={() => this.addSubperiod()}>增加</Button>*/}
 
-                  <Button
-                    color={'primary'}
-                    variant={'contained'}
-                    style={{ marginRight: '4px' }}
-                    onClick={() => this.delSubperiod()}>删除</Button>
-                </Typography>
+                  {/*<Button*/}
+                  {/*  color={'primary'}*/}
+                  {/*  variant={'contained'}*/}
+                  {/*  style={{ marginRight: '4px' }}*/}
+                  {/*  onClick={() => this.delSubperiod()}>删除</Button>*/}
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
@@ -218,7 +169,7 @@ class Weather extends React.Component {
                   <Underlying onChangeUnderlying={this.onChangeUnderlying}
                               onChangeState={this.onChangeState}
                   />
-                </Typography>
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
@@ -260,22 +211,22 @@ class Weather extends React.Component {
                   onChangeState={this.onChangeState}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            <ExpansionPanel expanded={expanded === 'panel8'} onChange={this.handleChange('panel8')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
-                <Typography className={classes.heading} color={'primary'}>保费金额</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography color={'primary'}>
-                  保费金额 ：{this.state.provinces}
-                </Typography>
-              </ExpansionPanelDetails>
+            {/*<ExpansionPanel expanded={expanded === 'panel8'} onChange={this.handleChange('panel8')}>*/}
+            {/*  <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>*/}
+            {/*    <Typography className={classes.heading} color={'primary'}>保费金额</Typography>*/}
+            {/*  </ExpansionPanelSummary>*/}
+            {/*  <ExpansionPanelDetails>*/}
+            {/*    <Typography color={'primary'}>*/}
+            {/*      保费金额 ：{this.state.provinces}*/}
+            {/*    </Typography>*/}
+            {/*  </ExpansionPanelDetails>*/}
 
-              <ExpansionPanelActions>
-                <Button size="small" color="primary" disabled={this.state.exportButton}>
-                  导出
-                </Button>
-              </ExpansionPanelActions>
-            </ExpansionPanel>
+            {/*  <ExpansionPanelActions>*/}
+            {/*    <Button size="small" color="primary" disabled={this.state.exportButton}>*/}
+            {/*      导出*/}
+            {/*    </Button>*/}
+            {/*  </ExpansionPanelActions>*/}
+            {/*</ExpansionPanel>*/}
             <Dialog className={classes.rootPlus} open={this.state.rootPlusStatus}
                     TransitionComponent={Transition} onClick={this.clickButtonPlus}>
               <Button color={'primary'} className={classes.buttonMargin} variant="contained"
@@ -287,7 +238,7 @@ class Weather extends React.Component {
               <Button color={'primary'} className={classes.buttonMargin} variant="contained"
                       size="large">历史事件</Button>
             </Dialog>
-          </Typography>
+          </div>
         </Slide>
         <Slide direction="left" in={true} mountOnEnter unmountOnExit>
           <div color={'primary'} className={classes.bottomNv}>
@@ -296,20 +247,17 @@ class Weather extends React.Component {
                    onClick={this.clickButtonPlus}>
                 <AddIcon/>
               </Fab>
-            </Typography>
+            </div>
             <Button color={'primary'} className={classes.bottomNv_b}
                     onClick={this.onClickSave}>保存</Button>
             <Button color={'primary'} className={classes.bottomNv_b}>询价</Button>
             <Button color={'primary'} className={classes.bottomNv_b}>另存</Button>
-          </Typography>
+          </div>
         </Slide>
-      </MuiThemeProvider>
+      </div>
     );
   }
 
-  componentDidCatch(error, errorInfo) {
-    Raven.captureException(error, { extra: errorInfo });
-  }
 
   onChangeState = name => event => {
     this.setState({
@@ -377,7 +325,7 @@ class Weather extends React.Component {
       });
       this.stations.pop();
     } else {
-      Toast.fail('不能删除最后一个');
+      // Toast.fail('不能删除最后一个');
     }
   };
 
@@ -410,7 +358,7 @@ class Weather extends React.Component {
       this.subperiods_start.pop();
       this.subperiods_end.pop();
     } else {
-      Toast.fail('不能删除最后一个');
+      // Toast.fail('不能删除最后一个');
     }
   };
 
@@ -553,4 +501,4 @@ class Weather extends React.Component {
 }
 
 
-export default withStyles(styles)(Weather);
+export default withStyles(_STYLE_POLICY)(Coverage);

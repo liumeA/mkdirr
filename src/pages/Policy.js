@@ -1,95 +1,130 @@
 import React, { Component } from 'react';
-import Insured from '@/components/Insured';
-import { ENDTIME, START_TIME, TENSOREN_BULE, TENSOREN_GREY } from '@/components/Const';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import Slide from '@material-ui/core/Slide';
-import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExMoreIcon from '@material-ui/core/SvgIcon/SvgIcon';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import { Button, createMuiTheme } from '@material-ui/core';
-import Subperiods from '@/components/Main/Weather/Subperiods';
-import Deductible from '@/components/Main/Weather/Deductible';
-import Limit from '@/components/Main/Weather/Limit';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Dialog from '@material-ui/core/Dialog';
-import Fab from '@material-ui/core/Fab';
-import Zoom from '@material-ui/core/Zoom';
+import Insured from '@/components/Policy/Insured';
+import { ENDTIME, START_TIME } from '@/components/Const';
+import Slide from '@material-ui/core/Slide/index';
+import Typography from '@material-ui/core/Typography/index';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel/index';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/index';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/index';
+import { Button, withStyles } from '@material-ui/core/index';
+import Deductible from '@/components/Policy/Deductible';
+import Limit from '@/components/Policy/Limit';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions/index';
+import Dialog from '@material-ui/core/Dialog/index';
+import Fab from '@material-ui/core/Fab/index';
+import Zoom from '@material-ui/core/Zoom/index';
 import AddIcon from '@material-ui/icons/Add';
 import PolicyCoverage from '@/components/Policy/PolicyCoverage';
 import { init as intl } from '@/util/init';
 import { formatMessage } from 'umi-plugin-locale';
+import Periods from '@/components/Policy/Periods';
+import { _STYLE_POLICY } from '@/PolicyStyle';
+import { router } from 'umi';
+
 
 function Transition(props) {
   return <Zoom direction="up" {...props} />;
 }
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
+const defaultTyphoon = {
+  distance: [
+    0,
+  ],
+  event_number_covered: 0,
+  index_type: 1,
+  location_centers: [null],
+  location_type: 0,
+  peril_deductible_amount: 0,
+  peril_deductible_ratio: 0,
+  peril_deductible_type: 0,
+  sub_limit: null,
+  subperiod_end: [
+    '2019-11-12',
+  ],
+  subperiod_start: [
+    '2019-08-13',
+  ],
+  ticks: [
+    {
+      subpid: 0,
+      trigger_value: [
+        [
+          {
+            trigger: 1,
+            value: null,
+          },
+        ],
+      ],
+    },
+  ],
+  trigger_type: 0,
+  underlying: 'Beaufort scale',
+  underlying_lower_threshold: 0,
+  underlying_type: 0,
+  underlying_upper_threshold: 0,
+  weights: [],
+  wmo_ids: [],
+};
 
 
-  bottomNv: {
-    width: '100%', position: 'fixed', bottom: 0,
-  },
-  bottomNv_b: {
-    width: '33.33%', height: 56, backgroundColor: '#fff',
-  },
-  bottomPlus: {
-    position: 'fixed', bottom: 60, right: 5, zIndex: 99,
-  }, rootPlus: {
-    width: '100%',
-    height: document.documentElement.clientHeight,
-    zIndex: 1,
-    top: 0,
-    position: 'fixed',
-    textAlign: 'right',
-    opacity: '0.8',
-  }, buttonMargin: {
-    margin: 2,
-  },
-});
+const defaultWeather = {
+  distance: [],
+  event_number_covered: 0,
+  index_type: 0,
+  location_centers: [
+    '上海-南汇',
+  ],
+  location_type: 0,
+  peril_deductible_amount: 0,
+  peril_deductible_ratio: 0,
+  peril_deductible_type: 0,
+  sub_limit: null,
+  subperiod_end: [
+    '2019-11-13',
+  ],
+  subperiod_start: [
+    '2019-08-13',
+  ],
+  ticks: [
+    {
+      subpid: 0,
+      trigger_value: [
+        {
+          trigger: 0,
+          value: null,
+        },
+      ],
+    },
+  ],
+  trigger_type: 0,
+  underlying: 'TempMax',
+  underlying_lower_threshold: 0,
+  underlying_type: 0,
+  underlying_upper_threshold: 0,
+  weights: [
+    null,
+  ],
+  wmo_ids: [
+    58369,
+  ],
+};
+
+
+
 
 class Policy extends Component {
 
-  theme = createMuiTheme({
-    typography: {
-      useNextVariants: true,
-    },
-    palette: {
-      primary: {
-        main: TENSOREN_BULE,
-      },
-      secondary: {
-        main: TENSOREN_BULE,
-      },
-    },
-  });
 
-  provinces = ['安徽'];
-  stations = ['砀山'];
-  wmo_ids = ['58108'];
   subperiods_start = [START_TIME];
   subperiods_end = [ENDTIME];
-  ticks = [[0]];
-  triggers = [[0]];
-  weights = [0];
   underlying = ['Intensity category'];
+  coverages = [defaultTyphoon];
 
   constructor(props) {
     super(props);
     this.state = {
+      slide: 'left',
       user_name: '',
       submissionId: '',
       trigger_type: '0',
@@ -102,7 +137,7 @@ class Policy extends Component {
       deductible_radio: '',
       limit: '',
       event_number_covered: '0',
-      underlyingArray: [0],
+      coverageArray: [0],
 
 
       triggers: '',
@@ -114,11 +149,71 @@ class Policy extends Component {
       periodCount: [0],
       expanded: null,
       exportButton: true,
+      inception: START_TIME,
+      end: ENDTIME,
     };
-
     this.subperiods_start[0] = START_TIME;
     this.subperiods_end[0] = ENDTIME;
   }
+
+  componentWillMount() {
+    if (window.localStorage.getItem('unSubmissionNo') !== null && window.localStorage.getItem('unSubmissionNo') !== undefined) {
+      var json = JSON.parse(window.localStorage.getItem('unSubmissionNo'));
+      this.setState({
+        slide: json.state.slide,
+        user_name: json.state.user_name,
+        submissionId: json.state.submissionId,
+        trigger_type: json.state.trigger,
+        insured_name: json.state.insured_name,
+
+        subject: json.state.subject,
+        insured_place: json.state.insured_place,
+        underlying_type: json.state.underlying_type,
+        deductible_type: json.state.deductible_type,
+        deductible_amount: json.state.deductible_amount,
+        deductible_radio: json.state.deductible_radio,
+        limit: json.state.limit,
+        event_number_covered: json.state.event_number_covered,
+        coverageArray: json.state.coverageArray,
+
+
+        triggers: json.state.triggers,
+        ticks: json.state.ticks,
+        underlyingUnit: json.state.underlyingUnit,
+        rootPlusStatus: json.state.rootPlusStatus,
+        stationArray: json.state.stationArray,
+        subperiodsArray: json.state.subperiodsArray,
+        periodCount: json.state.periodCount,
+        expanded: json.state.expanded,
+        exportButton: json.state.exportButton,
+        inception: json.state.inception,
+        end: json.state.end,
+
+      });
+      this.provinces = json.provinces;
+      this.stations = json.stations;
+      this.wmo_ids = json.wmo_ids;
+      this.subperiods_start = json.subperiods_start;
+      this.subperiods_end = json.subperiods_end;
+      this.ticks = json.ticks;
+      this.triggers = json.triggers;
+      this.weights = json.weights;
+      this.underlying = json.underlying;
+      this.coverages = json.coverages;
+    }
+    document.addEventListener('keydown', this.onKeyDown);
+
+  }
+
+
+  onKeyDown = (e) => {
+    switch (e.keyCode) {
+      case 116://F5
+        this.editCoverage(null);
+        break;
+    }
+  };
+
 
   handleChange = panel => (event, expanded) => {
     this.setState({
@@ -126,152 +221,79 @@ class Policy extends Component {
     });
   };
 
+
   render() {
     const { expanded } = this.state;
+    const { classes } = this.props;
     return (
-      <MuiThemeProvider theme={this.theme}>
-        <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-          <Typography component="div" color={'primary'} className={styles.root}>
+      <div color={'primary'} className={classes.root}>
+
+
+        <Slide direction={this.state.slide} in={true} mountOnEnter unmountOnExit>
+
+          <div color={'primary'} className={classes.root}
+               style={{ top: '50px', position: 'relative' }}>
             <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography color={'primary'}
-                            className={styles.heading}>{formatMessage({ id: intl.policy.lableText1 })}</Typography>
-                {/*<Typography className={styles.secondaryHeading}>在此填写基本信息</Typography>*/}
+                            className={classes.heading}>{formatMessage({ id: intl.policy.lableText1 })}</Typography>
+                {/*<Typography className={classes.secondaryHeading}>在此填写基本信息</Typography>*/}
               </ExpansionPanelSummary>
               <ExpansionPanelDetails color={'primary'}>
                 <Insured onChangeState={this.onChangeState}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            {/*<ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>*/}
-            {/*  <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>*/}
-            {/*    <Typography color={"primary"} className={styles.heading}>站点选择</Typography>*/}
-            {/*    /!*<Typography className={styles.secondaryHeading}>*!/*/}
-            {/*    /!*    You are currently not an owner*!/*/}
-            {/*    /!*</Typography>*!/*/}
-            {/*  </ExpansionPanelSummary>*/}
-            {/*  <ExpansionPanelDetails>*/}
-            {/*    <Typography component="div" color={"primary"} style={{width: "100%"}}>*/}
-            {/*      {this.state.stationArray.map((item, index) =>*/}
-            {/*        <Station*/}
-            {/*          key={index}*/}
-            {/*          keyId={index}*/}
-            {/*          setStations={this.setStations}*/}
-            {/*          setWmo_ids={this.setWmo_ids}*/}
-            {/*          setProvinces={this.setProvinces}*/}
-            {/*          setWeights={this.setWeights}*/}
-            {/*        />)}*/}
-            {/*      <Button color={"primary"}*/}
-            {/*              variant={"contained"}*/}
-            {/*              style={{marginRight: '4px', left: 0}}*/}
-            {/*              onClick={this.addStations}>增加</Button>*/}
-            {/*      <Button color={"primary"}*/}
-            {/*              variant={"contained"}*/}
-            {/*        // style={{marginRight: '4px', right: 5, position: "absolute"}}*/}
-            {/*              onClick={this.delStations}>删除</Button>*/}
-            {/*      <StaticMap/>*/}
 
-            {/*    </Typography>*/}
-            {/*  </ExpansionPanelDetails>*/}
-            {/*</ExpansionPanel>*/}
-            <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
+            <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography color={'primary'}
-                            className={styles.heading}>{formatMessage({ id: intl.policy.lableText2 })}</Typography>
+                            className={classes.heading}>{formatMessage({ id: intl.policy.lableText2 })}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography component="div" color={'primary'} style={{ width: '100%' }}>
-                  {this.state.underlyingArray.map((item, index) =>
+                <div color={'primary'} style={{ width: '100%' }}>
+                  {this.state.coverageArray.map((item, index) =>
                     <PolicyCoverage
                       key={index}
                       keyId={index}
                       index={this.underlying[index]}
                       onChangeUnderlying={this.onChangeUnderlying}
-                      // allStartTime={this.allStartTime}
+                      editCoverage={this.editCoverage}
                     />)}
 
-                  {/*{this.state.underlying.map((item, index) =>*/}
-                  {/*  <PolicyCoverage onChangeUnderlying={this.onChangeUnderlying}*/}
-                  {/*    // onChangeState={this.onChangeState}*/}
-                  {/*                  index={this.state.underlying[index]} key={index}/>,*/}
-                  {/*)}*/}
                   <Button color={'primary'}
                           variant={'contained'}
                           style={{ marginRight: '4px', left: 0 }}
-                          onClick={this.addCoverage}>增加</Button>
+                          onClick={this.addCoverage}>{formatMessage({ id: intl.add })}</Button>
                   <Button color={'primary'}
                           variant={'contained'}
-                    // style={{marginRight: '4px', right: 5, position: "absolute"}}
-                          onClick={this.delCoverage}>删除</Button>
+                          onClick={this.delCoverage}>{formatMessage({ id: intl.del })}</Button>
 
-                </Typography>
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
+
             <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography color={'primary'}
-                            className={styles.heading}>{formatMessage({ id: intl.policy.lableText3 })}</Typography>
-                {/*<Typography className={styles.secondaryHeading}>*/}
-                {/*    Filtering has been entirely disabled for whole web server*/}
-                {/*</Typography>*/}
+                            className={classes.heading}>{formatMessage({ id: intl.policy.lableText3 })}</Typography>
+
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography component="div" color={'primary'} style={{ width: '100%' }}>
+                <div color={'primary'} style={{ width: '100%' }}>
 
-                  {/*<MaterialUIPickers/>*/}
-                  {this.state.subperiodsArray.map((item, index) =>
-                    <Subperiods
-                      key={index}
-                      keyId={index}
-                      allEndTime={this.allEndTime}
-                      allStartTime={this.allStartTime}/>)}
-                  <Button
-                    color={'primary'}
-                    variant={'contained'}
-                    style={{ marginRight: '4px', left: 0 }}
-                    onClick={() => this.addSubperiod()}>增加</Button>
 
-                  <Button
-                    color={'primary'}
-                    variant={'contained'}
-                    style={{ marginRight: '4px' }}
-                    onClick={() => this.delSubperiod()}>删除</Button>
-                </Typography>
+                  <Periods
+                    onChangeState={this.onChangeState}
+                    inception={this.state.inception}
+                    end={this.state.end}/>
+
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            {/*<ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>*/}
-            {/*  <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>*/}
-            {/*    <Typography color={'primary'} className={styles.heading}>指数定义</Typography>*/}
-            {/*  </ExpansionPanelSummary>*/}
-            {/*  <ExpansionPanelDetails>*/}
-            {/*    <Typography component="div" color={'primary'} style={{ width: '100%' }}>*/}
-            {/*      <Underlying onChangeUnderlying={this.onChangeUnderlying}*/}
-            {/*                  onChangeState={this.onChangeState}*/}
-            {/*      />*/}
-            {/*    </Typography>*/}
-            {/*  </ExpansionPanelDetails>*/}
-            {/*</ExpansionPanel>*/}
-            {/*<ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>*/}
-            {/*  <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>*/}
-            {/*    <Typography color={"primary"} className={styles.heading}>赔偿标准</Typography>*/}
-            {/*  </ExpansionPanelSummary>*/}
-            {/*  <ExpansionPanelDetails>*/}
-            {/*    <Typography color={"primary"} component={"div"}>*/}
-            {/*      {this.state.periodCount.map((item, index) =>*/}
-            {/*        <Tick*/}
-            {/*          key={index}*/}
-            {/*          keyId={index}*/}
-            {/*          underlyingUnit={this.state.underlyingUnit}*/}
-            {/*          onChangeState={this.onChangeState}*/}
-            {/*          onChangeTriggers={this.onChangeTriggers}*/}
-            {/*          onChangeTicks={this.onChangeTicks}*/}
-            {/*        />)}*/}
 
-            {/*    </Typography>*/}
-            {/*  </ExpansionPanelDetails>*/}
-            {/*</ExpansionPanel>*/}
-            <ExpansionPanel expanded={expanded === 'panel6'} onChange={this.handleChange('panel6')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
-                <Typography className={styles.heading}
+            <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                <Typography className={classes.heading}
                             color={'primary'}>{formatMessage({ id: intl.policy.lableText4 })}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -280,10 +302,12 @@ class Policy extends Component {
                             deductible_radio={this.state.deductible_radio}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            <ExpansionPanel expanded={expanded === 'panel7'} onChange={this.handleChange('panel7')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
+
+
+            <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography color={'primary'}
-                            className={styles.heading}>{formatMessage({ id: intl.policy.lableText5 })}</Typography>
+                            className={classes.heading}>{formatMessage({ id: intl.policy.lableText5 })}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Limit
@@ -291,9 +315,11 @@ class Policy extends Component {
                   onChangeState={this.onChangeState}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            <ExpansionPanel expanded={expanded === 'panel8'} onChange={this.handleChange('panel8')}>
-              <ExpansionPanelSummary expandIcon={<ExMoreIcon/>}>
-                <Typography className={styles.heading}
+
+
+            <ExpansionPanel expanded={expanded === 'panel6'} onChange={this.handleChange('panel6')}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                <Typography className={classes.heading}
                             color={'primary'}>{formatMessage({ id: intl.policy.lableText6 })}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -308,34 +334,38 @@ class Policy extends Component {
                 </Button>
               </ExpansionPanelActions>
             </ExpansionPanel>
-            <Dialog className={styles.rootPlus} open={this.state.rootPlusStatus}
+
+
+            <Dialog className={classes.rootPlus} open={this.state.rootPlusStatus}
                     TransitionComponent={Transition} onClick={this.clickButtonPlus}>
-              <Button color={'primary'} className={styles.buttonMargin} variant="contained"
+              <Button color={'primary'} className={classes.buttonMargin} variant="contained"
                       size="large">历史事件</Button>
-              <Button color={'primary'} className={styles.buttonMargin} variant="contained"
+              <Button color={'primary'} className={classes.buttonMargin} variant="contained"
                       size="large">历史赔款</Button>
-              <Button color={'primary'} className={styles.buttonMargin} variant="contained"
+              <Button color={'primary'} className={classes.buttonMargin} variant="contained"
                       size="large">预报预警</Button>
-              <Button color={'primary'} className={styles.buttonMargin} variant="contained"
+              <Button color={'primary'} className={classes.buttonMargin} variant="contained"
                       size="large">历史事件</Button>
             </Dialog>
-          </Typography>
+          </div>
+
+
         </Slide>
-        <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-          <Typography component="div" color={'primary'} className={styles.bottomNv}>
-            <Typography component="div" color={'primary'} className={styles.bottomPlus}>
-              <Fab color="primary" aria-label="Add" className={styles.fab}
+        <Slide direction={this.state.slide} in={true} mountOnEnter unmountOnExit>
+          <div color={'primary'} className={classes.bottomNv}>
+            <div color={'primary'} className={classes.bottomPlus}>
+              <Fab color="primary" aria-label="Add"
                    onClick={this.clickButtonPlus}>
                 <AddIcon/>
               </Fab>
-            </Typography>
-            <Button color={'primary'} className={styles.bottomNv_b}
+            </div>
+            <Button color={'primary'} className={classes.bottomNv_b}
                     onClick={this.onClickSave}>保存</Button>
-            <Button color={'primary'} className={styles.bottomNv_b}>询价</Button>
-            <Button color={'primary'} className={styles.bottomNv_b}>另存</Button>
-          </Typography>
+            <Button color={'primary'} className={classes.bottomNv_b}>询价</Button>
+            <Button color={'primary'} className={classes.bottomNv_b}>另存</Button>
+          </div>
         </Slide>
-      </MuiThemeProvider>
+      </div>
     );
   }
 
@@ -381,93 +411,65 @@ class Policy extends Component {
   };
 
 
-  addStations = () => {
-
-    let arr = [...this.state.stationArray];
-    arr.push(1);
-    this.weights[arr.length - 1] = 0;
-    this.stations[arr.length - 1] = '砀山';
-    this.provinces[arr.length - 1] = '安徽';
-    this.wmo_ids[arr.length - 1] = '58108';
-    this.setState({
-      stationArray: arr,
-    });
-  };
-
-  delStations = () => {
-
-    let arr = [...this.state.stationArray];
-    if (arr.length !== 1) {
-      arr.pop();
-
-      this.setState({
-        stationArray: arr,
-      });
-      this.stations.pop();
-    } else {
-      // Toast.fail("不能删除最后一个")
-    }
-  };
-
-
   //endregion
 
   //region 保险责任
   addCoverage = () => {
-    let arr = [...this.state.underlyingArray];
+    console.log(this.coverages);
+    let arr = [...this.state.coverageArray];
     arr.push(1);
-    this.underlying.push(1);
     this.underlying[arr.length - 1] = 'Intensity category';
     this.setState({
-      underlyingArray: arr,
+      coverageArray: arr,
     });
-
+    this.coverages[this.coverages.length] = defaultTyphoon;
+    console.log(this.coverages);
   };
 
   delCoverage = () => {
 
-    let arr = [...this.state.underlyingArray];
+    let arr = [...this.state.coverageArray];
     if (arr.length !== 1) {
       arr.pop();
       this.setState({
-        underlyingArray: arr,
+        coverageArray: arr,
       });
+      this.coverages.pop();
+      console.log(this.coverages);
     } else {
       // Toast.fail("不能删除最后一个")
     }
+
+  };
+
+
+  editCoverage = (keyId) => {
+    console.log(keyId);
+
+    var json = {
+      provinces: this.provinces,
+      stations: this.stations,
+      wmo_ids: this.wmo_ids,
+      subperiods_start: this.subperiods_start,
+      subperiods_end: this.subperiods_end,
+      ticks: this.ticks,
+      triggers: this.triggers,
+      weights: this.weights,
+      underlying: this.underlying,
+      coverages: this.coverages,
+      state: this.state,
+    };
+
+    window.localStorage.setItem('unSubmissionNo', JSON.stringify(json));
+    setTimeout(function() {
+      router.push('/policy/coverage');
+    }, 2000);
 
   };
   //endregion
 
   //region 保险期间
-  addSubperiod = () => {
-    let arr = [...this.state.subperiodsArray];
-    arr.push(1);
-    this.ticks.push([]);
-    this.triggers.push([]);
-    this.setState({
-      subperiodsArray: arr,
-      periodCount: arr,
-    });
-    this.subperiods_start[arr.length - 1] = START_TIME;
-    this.subperiods_end[arr.length - 1] = ENDTIME;
-  };
 
-  delSubperiod = () => {
-    let arr = [...this.state.subperiodsArray];
-    if (arr.length !== 1) {
-      arr.pop();
-      this.ticks.pop();
-      this.triggers.pop();
-      this.setState({
-        subperiodsArray: arr,
-      });
-      this.subperiods_start.pop();
-      this.subperiods_end.pop();
-    } else {
-      // Toast.fail("不能删除最后一个")
-    }
-  };
 
   allStartTime = (key, date) => {
     this.subperiods_start[key] = date;
@@ -499,46 +501,40 @@ class Policy extends Component {
 //                break;
       case 'TempMax':
         unit = '℃';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'TempMin':
         unit = '℃';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'TempAverage':
         unit = '℃';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'WindSpeedMax':
         unit = 'm/s';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'WindSpeedGust':
         unit = 'm/s';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'WindSpeedAverage':
         unit = 'm/s';
+        this.coverages[id] = defaultWeather;
         break;
       case 'Precipitation':
         unit = 'mm';
-
+        this.coverages[id] = defaultWeather;
         break;
       case 'SunshineHour':
         unit = 'H';
+        this.coverages[id] = defaultWeather;
         break;
-//            case "RelativeHumidity":
-//                unit .setText("RH");
-//                break;
-//            case "Pressure":
-//                unit .setText("Pa");
-//                break;
-//            case "SnowDepth":
-//                unit .setText("mm");
-//                break;
-//            case "Visibility":
-//                unit .setText("m");
-//                break;
+      default:
+        this.coverages[id] = defaultTyphoon;
+        break;
+
     }
     this.setState({
       underlyingUnit: unit,
@@ -596,6 +592,12 @@ class Policy extends Component {
 
   };
   //endregion
+
+
 }
 
-export default Policy;
+export default withStyles(_STYLE_POLICY)(Policy);
+
+
+
+

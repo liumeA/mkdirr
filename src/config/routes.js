@@ -1,15 +1,14 @@
 // const login=require("./pages/user/Login")
+
 exports.routes = [
-  // { path: '/', redirect: '/login', exact: true },
-  // { path: '/', component: '../pages/Main.js', exact: true },
-  // {
-  //   path: '/', component: '../layouts/index.js', exact: true,
-  //   routes: [
-  //     { path: '/', component: '../pages/index.js' },
-  //   ],
-  //
-  // },
-  { path: '/policy', component: '../pages/Policy.js', exact: true },
+  {
+    path: '/policy', component: '../layouts/Policy.js',
+    routes: [
+      { path: '/policy', component: '../pages/Policy.js', exact: true },
+      { path: '/policy/coverage', component: '../pages/Coverage/Coverage.js' },
+
+    ],
+  },
   {
     path: '/', component: '../layouts/mian.js',
     routes: [

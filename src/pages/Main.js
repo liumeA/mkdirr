@@ -16,7 +16,7 @@ const styles = theme => ({
     width: '100%',
     textAlign: 'left',
     fontSize: '20px',
-  }, byttonContent: {
+  }, buttonContent: {
     margin: 10,
   },
 });
@@ -31,7 +31,7 @@ class Main extends Component {
       <div>
         <img
           src={logo}
-          alt={'天韧科技'}
+          alt={formatMessage({ id: intl.tensoren })}
           style={{
             margin: '0 auto',
             display: 'flex',
@@ -39,7 +39,7 @@ class Main extends Component {
             padding: 20,
             width: '50%',
           }}/>
-        <div style={classes.byttonContent}>
+        <div style={classes.buttonContent}>
           <Button color={'primary'} style={classes.button} fullWidth
                   onClick={this.weatherClick}>          {formatMessage({ id: intl.main.text1 })}</Button>
           <Button style={classes.button} fullWidth disabled
@@ -55,8 +55,8 @@ class Main extends Component {
   }
 
   weatherClick = () => {
-    let orderNo = (Cookies.load('user')).indexOf(';');
-    let username = Cookies.load('user').substr(0, orderNo);
+    // let username = Cookies.load('user').substr(0, (Cookies.load('user')).indexOf(';'));
+    let username = 'Cookies.load(\'user\').substr(0, (Cookies.load(\'user\')).indexOf(\';\')';
     let data = {
       user_name: username,
       submission_id: 0,

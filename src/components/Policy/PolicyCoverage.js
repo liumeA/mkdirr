@@ -5,18 +5,17 @@ import { init as intl } from '@/util/init';
 import { formatMessage } from 'umi-plugin-locale';
 import { Typography, Zoom } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { router } from 'umi';
+import { _Css_Select } from '@/css';
 
 
-const PolicyCoverage = ({ onChangeUnderlying, index, keyId }) => {
-  function f() {
-    router.push('/main');
-  }
+const PolicyCoverage = ({ onChangeUnderlying, index, keyId, editCoverage }) => {
+
 
   return (
     <Zoom in={true}>
       <Typography component={'div'}>
         <Select
+          style={_Css_Select.minWidth}
           value={index}
           onChange={onChangeUnderlying(keyId)}
         >
@@ -34,8 +33,8 @@ const PolicyCoverage = ({ onChangeUnderlying, index, keyId }) => {
           <MenuItem value={'SnowDepth'}>{formatMessage({ id: intl.underlying.SnowDepth })}</MenuItem>
           <MenuItem value={'Visibility'}>{formatMessage({ id: intl.underlying.Visibility })}</MenuItem>
         </Select>
-        <Button color={'secondary'} onClick={f} > 编辑</Button>
-    </Typography>
+        <Button color={'secondary'} onClick={() => editCoverage(keyId)}> {formatMessage({ id: intl.edit })}</Button>
+      </Typography>
     </Zoom>
   );
 };

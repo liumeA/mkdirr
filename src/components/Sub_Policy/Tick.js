@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import TickInput from './TickInput';
-import Toast from 'antd-mobile/lib/toast';
 import { formatMessage } from 'umi-plugin-locale';
 import { init as intl } from '@/util/init';
 
@@ -13,7 +12,7 @@ class Tick extends Component {
   render() {
     // console.log(this.props.underlyingUnit);
     return (
-      <Typography color={'primary'} component={'div'}>
+      <div color={'primary'}>
         <p>{formatMessage({ id: intl.period })}{this.props.keyId + 1}</p>
 
         {this.state.inputArray.map((item, index) =>
@@ -35,7 +34,7 @@ class Tick extends Component {
                 variant={'contained'}
           // style={{marginRight: '4px', right: 5, position: "absolute"}}
                 onClick={() => this.delTick()}>删除</Button>
-      </Typography>
+      </div>
     );
   }
 
@@ -57,7 +56,7 @@ class Tick extends Component {
         inputArray: arr,
       });
     } else {
-      Toast.fail('不能删除最后一个');
+      // Toast.fail('不能删除最后一个');
     }
   };
 }

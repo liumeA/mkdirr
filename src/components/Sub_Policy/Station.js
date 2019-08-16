@@ -50,9 +50,9 @@ class Station extends Component {
             id="simple-start-adornment"
             type={'number'}
             onChange={this.weightsChange}
-            style={{ maxWidth: '100px' }}
+            style={{ minWidth: 100, maxWidth: 150 }}
             InputProps={{
-              startAdornment: <InputAdornment position="start" style={{ width: 55 }}>权重：</InputAdornment>,
+              startAdornment: <InputAdornment position="start" style={{ minWidth: 55 }}>权重：</InputAdornment>,
               endAdornment: <InputAdornment position="end"> % </InputAdornment>,
             }}
           />

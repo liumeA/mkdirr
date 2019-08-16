@@ -1,6 +1,7 @@
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { setLocale ,getLocale} from 'umi-plugin-locale';
+import { getLocale, setLocale } from 'umi-plugin-locale';
+import React from 'react';
 
 export const Language = () => {
   function setLang(e) {
@@ -9,9 +10,9 @@ export const Language = () => {
 
   return (
     <Select
-    value={getLocale()}
-    onChange={setLang}>
-    <MenuItem value={'zh-CN'}>中文</MenuItem>
-    <MenuItem value={'en-US'}>English</MenuItem>
-  </Select>);
+      value={getLocale()}
+      onChange={setLang}>
+      <MenuItem value={'zh-CN'}>中文</MenuItem>
+      <MenuItem value={'en-US'}>English</MenuItem>
+    </Select>);
 };
